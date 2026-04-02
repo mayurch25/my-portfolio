@@ -7,6 +7,7 @@ import connectDB from "./config/db.js"
 import authRoutes from "./routes/authRoutes.js"
 import projectRoutes from "./routes/projectRoutes.js";
 import skillRoutes from "./routes/skillRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 
 const app = express();
 
@@ -20,9 +21,10 @@ app.use(express.json());
 connectDB();
 
 //routes
-app.use("/api/auth", authRoutes)
-app.use("/api/projects", projectRoutes)
-app.use("/api/skills", skillRoutes)
+app.use("/api/auth", authRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/skills", skillRoutes);
+app.use("api/contact", contactRoutes);
 
 
 app.get('/', (req, res) => {
