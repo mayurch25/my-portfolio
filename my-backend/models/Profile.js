@@ -11,6 +11,7 @@ const profileSchema = new mongoose.Schema({
   github: { type: String, default: "" },
   yearsOfExperience: { type: String, default: "" },
   languages: { type: [String], default: [] },
+  profileImage: { type: String, default: "" },
 });
 
 export default mongoose.model("Profile", profileSchema);
