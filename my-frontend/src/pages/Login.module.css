@@ -79,6 +79,11 @@
     background: linear-gradient(135deg, #7c3aed, #6366f1);
     transition: all 0.3s ease;
 }
+.error {
+    color: rgb(237, 22, 15);
+    text-align: left;
+    font-size: 0.875rem;
+}
 
 .loginButton:hover {
     transform: translateY(-2px);
