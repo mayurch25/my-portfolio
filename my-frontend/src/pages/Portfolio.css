@@ -154,8 +154,7 @@ section { padding: 100px 5%; }
 .about-info { display: flex; flex-direction: column; gap: 14px; margin: 30px auto; width: fit-content; text-align: left;}
 .info-row { display: flex;
   align-items: center;
-  gap: 12px;
-  justify-content: flex-start; }
+  gap: 12px; }
 .info-icon { font-size: 1.1rem; }
 .info-label { color: var(--muted); font-size: 0.85rem; min-width: 80px; }
 .info-value { color: var(--text); font-size: 0.95rem; font-weight: 500;  word-break: break-word;       /* ✅ force wrap */

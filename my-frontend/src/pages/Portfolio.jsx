@@ -178,7 +178,7 @@ export default function Portfolio() {
                 </span>
               </div>
             )}
-            <div className="info-row" style={{ alignItems: "flex-start" }}>
+            <div className="info-row">
               <span className="info-icon">🌐</span>
               <span className="info-label">Languages</span>
               <div className="lang-badges">
