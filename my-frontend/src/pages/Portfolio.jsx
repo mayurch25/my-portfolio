@@ -13,6 +13,7 @@ export default function Portfolio() {
   const [contact, setContact] = useState({ name: "", email: "", message: "" });
   const [contactStatus, setContactStatus] = useState("");
   const [loading, setLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const loadAll = async () => {
@@ -78,14 +79,19 @@ export default function Portfolio() {
       {/* NAVBAR */}
       <nav className="navbar">
         <div className="navbar-brand">{name.split(" ")[0]}<span style={{ color: "#6c63ff" }}>.</span></div>
-        <ul className="navbar-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
+        <ul className={`navbar-links${menuOpen ? " navbar-links--open" : ""}`}>
+          <li><a href="#about" onClick={() => setMenuOpen(false)}>About</a></li>
+          <li><a href="#skills" onClick={() => setMenuOpen(false)}>Skills</a></li>
+          <li><a href="#experience" onClick={() => setMenuOpen(false)}>Experience</a></li>
+          <li><a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a></li>
+          <li><a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a></li>
         </ul>
-        <button className="navbar-admin-btn" onClick={() => navigate(localStorage.getItem("token") ? "/admin" : "/login")}>Admin</button>
+        <button className="navbar-admin-btn navbar-admin-btn--desktop" onClick={() => navigate(localStorage.getItem("token") ? "/admin" : "/login")}>Admin</button>
+        <button className="navbar-hamburger" onClick={() => setMenuOpen((o) => !o)} aria-label="Toggle menu">
+          <span className={`hamburger-bar${menuOpen ? " hamburger-bar--open" : ""}`} />
+          <span className={`hamburger-bar${menuOpen ? " hamburger-bar--open" : ""}`} />
+          <span className={`hamburger-bar${menuOpen ? " hamburger-bar--open" : ""}`} />
+        </button>
       </nav>
 
       {/* HERO */}
