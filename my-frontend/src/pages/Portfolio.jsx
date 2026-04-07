@@ -73,6 +73,7 @@ export default function Portfolio() {
   const languages = profile?.languages?.length ? profile.languages : ["English", "Hindi", "Marathi"];
   const BACKEND_URL = import.meta.env.VITE_API_URL?.replace("/api", "") || "http://localhost:3000";
   const profileImageUrl = profile?.profileImage ? `${BACKEND_URL}${profile.profileImage}` : "";
+  const resumeUrl = profile?.resume ? `${BACKEND_URL}/download-resume/resume.pdf` : "";
 
   return (
     <div>
@@ -118,6 +119,9 @@ export default function Portfolio() {
         <div className="hero-btns">
           <a href="#contact" className="btn-primary">Get In Touch</a>
           <a href="#projects" className="btn-secondary">View Projects</a>
+          {resumeUrl && (
+            <a href={resumeUrl} download="resume.pdf" className="btn-secondary">Download Resume</a>
+          )}
           {linkedin && (
             <a href={linkedin} target="_blank" rel="noreferrer" className="btn-secondary">LinkedIn</a>
           )}

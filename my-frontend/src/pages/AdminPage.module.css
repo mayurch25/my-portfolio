@@ -40,6 +40,16 @@
 .btnPrimary:hover { background: #5a52e8; }
 .btnPrimary:disabled { opacity: 0.6; cursor: not-allowed; }
 
+.btnSecondary {
+  background: transparent; color: #a0a0c0;
+  border: 1px solid #3a3a5c; padding: 8px 16px;
+  border-radius: 8px; font-size: 0.85rem; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  align-self: flex-start;
+}
+.btnSecondary:hover { background: rgba(108,99,255,0.1); border-color: #6c63ff; color: #6c63ff; }
+.btnSecondary:disabled { opacity: 0.6; cursor: not-allowed; }
+
 .btnDanger {
   background: transparent; color: #f87171;
   border: 1px solid #7f1d1d; padding: 8px 16px;

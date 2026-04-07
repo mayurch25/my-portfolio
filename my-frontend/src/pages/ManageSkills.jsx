@@ -9,6 +9,7 @@ export default function ManageSkills() {
   const [skills, setSkills] = useState([]);
   const [form, setForm] = useState({ name: "", level: "Intermediate" });
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
   const [status, setStatus] = useState("");
 
   const load = async () => {
@@ -18,20 +19,37 @@ export default function ManageSkills() {
 
   useEffect(() => { load(); }, []);
 
-  const handleAdd = async () => {
+  const resetForm = () => {
+    setForm({ name: "", level: "Intermediate" });
+    setEditingId(null);
+    setShowForm(false);
+    setStatus("");
+  };
+
+  const handleStartEdit = (skill) => {
+    setForm({ name: skill.name, level: skill.level || "Intermediate" });
+    setEditingId(skill._id);
+    setShowForm(true);
+  };
+
+  const handleSave = async () => {
     if (!form.name.trim()) {
       toast.error("Skill name is required.");
       return;
     }
     setStatus("saving");
     try {
-      await API.post("/skills", form);
-      toast.success("Skill added!");
-      setForm({ name: "", level: "Intermediate" });
-      setShowForm(false);
+      if (editingId) {
+        await API.put(`/skills/${editingId}`, form);
+        toast.success("Skill updated!");
+      } else {
+        await API.post("/skills", form);
+        toast.success("Skill added!");
+      }
+      resetForm();
       load();
     } catch {
-      toast.error("Failed to add skill. Please try again.");
+      toast.error("Failed to save skill. Please try again.");
     } finally {
       setStatus("");
     }
@@ -42,6 +60,7 @@ export default function ManageSkills() {
     try {
       await API.delete(`/skills/${id}`);
       toast.success("Skill deleted.");
+      if (editingId === id) resetForm();
       load();
     } catch {
       toast.error("Failed to delete skill. Please try again.");
@@ -57,14 +76,21 @@ export default function ManageSkills() {
 
       <button
         className={adminStyles.btnPrimary}
-        onClick={() => { setShowForm(!showForm); setStatus(""); }}
+        onClick={() => {
+          if (showForm && !editingId) {
+            resetForm();
+          } else {
+            resetForm();
+            setShowForm(true);
+          }
+        }}
       >
-        {showForm ? "Cancel" : "+ Add Skill"}
+        {showForm && !editingId ? "Cancel" : "+ Add Skill"}
       </button>
 
       {showForm && (
         <div className={adminStyles.card} style={{ marginTop: 20 }}>
-          <div className={adminStyles.cardTitle}>New Skill</div>
+          <div className={adminStyles.cardTitle}>{editingId ? "Edit Skill" : "New Skill"}</div>
 
           <div className={adminStyles.formRow}>
             <div className={adminStyles.formGroup}>
@@ -90,13 +116,20 @@ export default function ManageSkills() {
             </div>
           </div>
 
-          <button
-            className={adminStyles.btnPrimary}
-            onClick={handleAdd}
-            disabled={status === "saving"}
-          >
-            {status === "saving" ? "Saving..." : "Add Skill"}
-          </button>
+          <div style={{ display: "flex", gap: 10 }}>
+            <button
+              className={adminStyles.btnPrimary}
+              onClick={handleSave}
+              disabled={status === "saving"}
+            >
+              {status === "saving" ? "Saving..." : editingId ? "Update Skill" : "Add Skill"}
+            </button>
+            {editingId && (
+              <button className={adminStyles.btnSecondary} onClick={resetForm}>
+                Cancel
+              </button>
+            )}
+          </div>
         </div>
       )}
 
@@ -114,12 +147,20 @@ export default function ManageSkills() {
                 <div className={adminStyles.listCardMeta}>{s.level}</div>
               )}
             </div>
-            <button
-              className={adminStyles.btnDanger}
-              onClick={() => handleDelete(s._id)}
-            >
-              Delete
-            </button>
+            <div style={{ display: "flex", gap: 8 }}>
+              <button
+                className={adminStyles.btnSecondary}
+                onClick={() => handleStartEdit(s)}
+              >
+                Edit
+              </button>
+              <button
+                className={adminStyles.btnDanger}
+                onClick={() => handleDelete(s._id)}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>

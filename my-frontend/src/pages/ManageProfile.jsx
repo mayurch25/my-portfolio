@@ -16,7 +16,10 @@ export default function ManageProfile() {
   const [profileImage, setProfileImage] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const [imageStatus, setImageStatus] = useState("");
+  const [resume, setResume] = useState("");
+  const [resumeStatus, setResumeStatus] = useState("");
   const fileInputRef = useRef(null);
+  const resumeInputRef = useRef(null);
 
   useEffect(() => {
     const load = async () => {
@@ -38,6 +41,7 @@ export default function ManageProfile() {
         setProfileImage(p.profileImage);
         setImagePreview(`${BACKEND_URL}${p.profileImage}`);
       }
+      if (p.resume) setResume(p.resume);
     };
     load();
   }, []);
@@ -54,6 +58,25 @@ export default function ManageProfile() {
     } catch {
       toast.error("Failed to save. Please try again.");
       setStatus("");
+    }
+  };
+
+  const handleResumeUpload = async () => {
+    const file = resumeInputRef.current?.files[0];
+    if (!file) return;
+    setResumeStatus("uploading");
+    try {
+      const formData = new FormData();
+      formData.append("resume", file);
+      const res = await API.post("/profile/upload-resume", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setResume(res.data.resume);
+      toast.success("Resume uploaded!");
+    } catch {
+      toast.error("Upload failed. Only PDF files are allowed.");
+    } finally {
+      setResumeStatus("");
     }
   };
 
@@ -144,6 +167,42 @@ export default function ManageProfile() {
               {imageStatus === "uploading" ? "Uploading..." : "Upload Image"}
             </button>
           </div>
+        </div>
+      </div>
+
+      <div className={adminStyles.card}>
+        <div className={adminStyles.cardTitle}>Resume</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {resume && (
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <span style={{ color: "#a0a0b0", fontSize: 14 }}>Current: resume.pdf</span>
+              <a
+                href={`${BACKEND_URL}${resume}`}
+                download="resume.pdf"
+                className={adminStyles.btnPrimary}
+                style={{ textDecoration: "none", padding: "6px 14px", fontSize: 13 }}
+              >
+                Download
+              </a>
+            </div>
+          )}
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+            <input
+              ref={resumeInputRef}
+              type="file"
+              accept="application/pdf"
+              className={adminStyles.input}
+              style={{ flex: 1, minWidth: 200 }}
+            />
+            <button
+              className={adminStyles.btnPrimary}
+              onClick={handleResumeUpload}
+              disabled={resumeStatus === "uploading"}
+            >
+              {resumeStatus === "uploading" ? "Uploading..." : "Upload Resume"}
+            </button>
+          </div>
+          <p style={{ color: "#a0a0b0", fontSize: 12, margin: 0 }}>PDF only, max 10MB</p>
         </div>
       </div>
 
