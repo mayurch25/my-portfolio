@@ -68,7 +68,7 @@ export default function Portfolio() {
   const email = profile?.email || "mayurrchaudhari25@gmail.com";
   const phone = profile?.phone || "9421674880";
   const linkedin = profile?.linkedin || "https://www.linkedin.com/in/mayur-chaudhari-668a44103";
-  const github = profile?.github || "";
+  const github = profile?.github || "https://github.com/mayurch25";
   const years = profile?.yearsOfExperience || "5+";
   const languages = profile?.languages?.length ? profile.languages : ["English", "Hindi", "Marathi"];
   const BACKEND_URL = import.meta.env.VITE_API_URL?.replace("/api", "") || "http://localhost:3000";
@@ -124,6 +124,9 @@ export default function Portfolio() {
           )}
           {linkedin && (
             <a href={linkedin} target="_blank" rel="noreferrer" className="btn-secondary">LinkedIn</a>
+          )}
+          {github && (
+            <a href={github} target="_blank" rel="noreferrer" className="btn-secondary">Git Hub</a>
           )}
         </div>
         <div className="hero-stats">
