@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import API from "../services/api";
 import adminStyles from "./AdminPage.module.css";
 
@@ -19,25 +20,32 @@ export default function ManageEducation() {
 
   const handleAdd = async () => {
     if (!form.degree || !form.institution) {
-      setStatus("validation");
+      toast.error("Degree and Institution are required.");
       return;
     }
     setStatus("saving");
     try {
       await API.post("/education", form);
+      toast.success("Education added successfully!");
       setForm(emptyForm);
       setShowForm(false);
       setStatus("");
       load();
     } catch {
-      setStatus("error");
+      toast.error("Failed to save. Please try again.");
+      setStatus("");
     }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this education entry?")) return;
-    await API.delete(`/education/${id}`);
-    load();
+    try {
+      await API.delete(`/education/${id}`);
+      toast.success("Education entry deleted.");
+      load();
+    } catch {
+      toast.error("Failed to delete. Please try again.");
+    }
   };
 
   return (
@@ -79,9 +87,6 @@ export default function ManageEducation() {
                 onChange={(e) => setForm({ ...form, location: e.target.value })} />
             </div>
           </div>
-
-          {status === "validation" && <p className={adminStyles.error}>Degree and Institution are required.</p>}
-          {status === "error" && <p className={adminStyles.error}>Failed to save. Please try again.</p>}
 
           <button className={adminStyles.btnPrimary} onClick={handleAdd} disabled={status === "saving"}>
             {status === "saving" ? "Saving..." : "Add Education"}

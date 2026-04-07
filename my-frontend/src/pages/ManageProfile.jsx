@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import API from "../services/api";
 import adminStyles from "./AdminPage.module.css";
 
@@ -48,10 +49,11 @@ export default function ManageProfile() {
         ...form,
         languages: form.languages.split(",").map((l) => l.trim()).filter(Boolean),
       });
-      setStatus("saved");
-      setTimeout(() => setStatus(""), 2500);
+      toast.success("Profile saved successfully!");
+      setStatus("");
     } catch {
-      setStatus("error");
+      toast.error("Failed to save. Please try again.");
+      setStatus("");
     }
   };
 
@@ -73,10 +75,11 @@ export default function ManageProfile() {
       });
       setProfileImage(res.data.profileImage);
       setImagePreview(`${BACKEND_URL}${res.data.profileImage}`);
-      setImageStatus("saved");
-      setTimeout(() => setImageStatus(""), 2500);
+      toast.success("Image uploaded!");
+      setImageStatus("");
     } catch {
-      setImageStatus("error");
+      toast.error("Upload failed. Try again.");
+      setImageStatus("");
     }
   };
 
@@ -140,8 +143,6 @@ export default function ManageProfile() {
             >
               {imageStatus === "uploading" ? "Uploading..." : "Upload Image"}
             </button>
-            {imageStatus === "saved" && <p className={adminStyles.success}>Image uploaded!</p>}
-            {imageStatus === "error" && <p className={adminStyles.error}>Upload failed. Try again.</p>}
           </div>
         </div>
       </div>
@@ -167,9 +168,6 @@ export default function ManageProfile() {
         {field("Years of Experience", "yearsOfExperience", false, "5+")}
         {field("Languages (comma-separated)", "languages", false, "English, Hindi, Marathi")}
       </div>
-
-      {status === "saved" && <p className={adminStyles.success}>Profile saved successfully!</p>}
-      {status === "error" && <p className={adminStyles.error}>Failed to save. Please try again.</p>}
 
       <button
         className={adminStyles.btnPrimary}

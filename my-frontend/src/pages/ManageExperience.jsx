@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import API from "../services/api";
 import adminStyles from "./AdminPage.module.css";
 
@@ -21,7 +22,7 @@ export default function ManageExperience() {
 
   const handleAdd = async () => {
     if (!form.company || !form.role || !form.startDate) {
-      setStatus("validation");
+      toast.error("Company, Role and Start Date are required.");
       return;
     }
     setStatus("saving");
@@ -30,19 +31,26 @@ export default function ManageExperience() {
         ...form,
         bullets: form.bullets.split("\n").map((b) => b.trim()).filter(Boolean),
       });
+      toast.success("Experience added successfully!");
       setForm(emptyForm);
       setShowForm(false);
       setStatus("");
       load();
     } catch {
-      setStatus("error");
+      toast.error("Failed to save. Please try again.");
+      setStatus("");
     }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this experience?")) return;
-    await API.delete(`/experience/${id}`);
-    load();
+    try {
+      await API.delete(`/experience/${id}`);
+      toast.success("Experience deleted.");
+      load();
+    } catch {
+      toast.error("Failed to delete. Please try again.");
+    }
   };
 
   return (
@@ -93,9 +101,6 @@ export default function ManageExperience() {
               placeholder={"Developed X using Y...\nCollaborated with team..."}
               onChange={(e) => setForm({ ...form, bullets: e.target.value })} />
           </div>
-
-          {status === "validation" && <p className={adminStyles.error}>Company, Role and Start Date are required.</p>}
-          {status === "error" && <p className={adminStyles.error}>Failed to save. Please try again.</p>}
 
           <button className={adminStyles.btnPrimary} onClick={handleAdd} disabled={status === "saving"}>
             {status === "saving" ? "Saving..." : "Add Experience"}

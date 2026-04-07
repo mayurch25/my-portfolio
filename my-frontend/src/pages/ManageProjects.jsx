@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import API from "../services/api";
 import adminStyles from "./AdminPage.module.css";
 
@@ -21,7 +22,7 @@ export default function ManageProjects() {
 
   const handleAdd = async () => {
     if (!form.title || !form.description) {
-      setStatus("validation");
+      toast.error("Title and Description are required.");
       return;
     }
     setStatus("saving");
@@ -30,19 +31,26 @@ export default function ManageProjects() {
         ...form,
         techStack: form.techStack.split(",").map((t) => t.trim()).filter(Boolean),
       });
+      toast.success("Project added successfully!");
       setForm(emptyForm);
       setShowForm(false);
       setStatus("");
       fetchProjects();
     } catch {
-      setStatus("error");
+      toast.error("Failed to save. Please try again.");
+      setStatus("");
     }
   };
 
   const deleteProject = async (id) => {
     if (!window.confirm("Delete this project?")) return;
-    await API.delete(`/projects/${id}`);
-    fetchProjects();
+    try {
+      await API.delete(`/projects/${id}`);
+      toast.success("Project deleted.");
+      fetchProjects();
+    } catch {
+      toast.error("Failed to delete. Please try again.");
+    }
   };
 
   return (
@@ -93,13 +101,6 @@ export default function ManageProjects() {
               onChange={(e) => setForm({ ...form, techStack: e.target.value })}
             />
           </div>
-
-          {status === "validation" && (
-            <p className={adminStyles.error}>Title and Description are required.</p>
-          )}
-          {status === "error" && (
-            <p className={adminStyles.error}>Failed to save. Please try again.</p>
-          )}
 
           <button
             className={adminStyles.btnPrimary}
