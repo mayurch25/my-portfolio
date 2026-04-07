@@ -69,11 +69,11 @@ export default function Projects() {
                 <p className="project-desc">{p.description}</p>
               )}
 
-              {p.techStank && (
+              {p.techStack && p.techStack.length > 0 && (
                 <div className="project-tags">
-                  {p.techStank.split(",").map((tech) => (
-                    <span key={tech.trim()} className="project-tag">
-                      {tech.trim()}
+                  {p.techStack.map((tech) => (
+                    <span key={tech} className="project-tag">
+                      {tech}
                     </span>
                   ))}
                 </div>

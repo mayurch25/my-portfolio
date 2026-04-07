@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import API from "../services/api";
 import adminStyles from "./AdminPage.module.css";
 
-const emptyForm = { title: "", description: "", techStack: "" };
+const emptyForm = { title: "", description: "", techStack: "", githubLink: "", liveLink: "" };
 
 export default function ManageProjects() {
   const [projects, setProjects] = useState([]);
@@ -102,6 +102,26 @@ export default function ManageProjects() {
             />
           </div>
 
+          <div className={adminStyles.formGroup}>
+            <label className={adminStyles.label}>GitHub Link</label>
+            <input
+              className={adminStyles.input}
+              value={form.githubLink}
+              placeholder="https://github.com/username/repo"
+              onChange={(e) => setForm({ ...form, githubLink: e.target.value })}
+            />
+          </div>
+
+          <div className={adminStyles.formGroup}>
+            <label className={adminStyles.label}>Live Demo Link</label>
+            <input
+              className={adminStyles.input}
+              value={form.liveLink}
+              placeholder="https://your-project.com"
+              onChange={(e) => setForm({ ...form, liveLink: e.target.value })}
+            />
+          </div>
+
           <button
             className={adminStyles.btnPrimary}
             onClick={handleAdd}
@@ -129,6 +149,20 @@ export default function ManageProjects() {
                     <li key={i}>{tech}</li>
                   ))}
                 </ul>
+              )}
+              {(p.githubLink || p.liveLink) && (
+                <div style={{ display: "flex", gap: 12, marginTop: 6, flexWrap: "wrap" }}>
+                  {p.githubLink && (
+                    <a href={p.githubLink} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "var(--accent)" }}>
+                      GitHub →
+                    </a>
+                  )}
+                  {p.liveLink && (
+                    <a href={p.liveLink} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "var(--accent)" }}>
+                      Live Demo →
+                    </a>
+                  )}
+                </div>
               )}
             </div>
             <button

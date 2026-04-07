@@ -309,7 +309,7 @@ export default function Portfolio() {
                 <div className="project-icon">{["🚀", "💡", "🛠️", "🎯", "⚡", "🌟"][i % 6]}</div>
                 <div className="project-title">{p.title}</div>
                 <div className="project-desc">{p.description}</div>
-                {p.techStack?.length > 0 && (
+                {p.techStack && p.techStack.length > 0 && (
                   <div className="project-tags">
                     {p.techStack.map((t) => <span key={t} className="project-tag">{t}</span>)}
                   </div>

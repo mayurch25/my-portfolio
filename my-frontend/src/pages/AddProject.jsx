@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import API from "../services/api";
 import adminStyles from "./AdminPage.module.css";
 
-const emptyForm = { title: "", description: "", techStack: "" };
+const emptyForm = { title: "", description: "", techStack: "", githubLink: "", liveLink: "" };
 
 export default function AddProject() {
   const [form, setForm] = useState(emptyForm);
@@ -67,6 +67,26 @@ export default function AddProject() {
             value={form.techStack}
             placeholder="React, Node.js, MongoDB"
             onChange={(e) => setForm({ ...form, techStack: e.target.value })}
+          />
+        </div>
+
+        <div className={adminStyles.formGroup}>
+          <label className={adminStyles.label}>GitHub Link</label>
+          <input
+            className={adminStyles.input}
+            value={form.githubLink}
+            placeholder="https://github.com/username/repo"
+            onChange={(e) => setForm({ ...form, githubLink: e.target.value })}
+          />
+        </div>
+
+        <div className={adminStyles.formGroup}>
+          <label className={adminStyles.label}>Live Demo Link</label>
+          <input
+            className={adminStyles.input}
+            value={form.liveLink}
+            placeholder="https://your-project.com"
+            onChange={(e) => setForm({ ...form, liveLink: e.target.value })}
           />
         </div>
 
