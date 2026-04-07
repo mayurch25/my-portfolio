@@ -6,9 +6,11 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <h1>Admin Dashboard</h1>
-
+    <div className={adminStyles.page}>
+      <div className={adminStyles.header}>
+      <h2 className={adminStyles.title}>Admin Dashboard</h2>
+      </div>
+      <div style={{ marginTop: "30px" }}>
       <button onClick={() => navigate("/admin/projects")} className={adminStyles.btnPrimary} >
         Manage Projects
       </button>
@@ -20,6 +22,7 @@ export default function Dashboard() {
       <button onClick={() => navigate("/admin/messages")} className={adminStyles.btnPrimary}>
         View Messages
       </button>
+      </div>
     </div>
   );
 }
