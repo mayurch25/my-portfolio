@@ -12,6 +12,7 @@ const profileSchema = new mongoose.Schema({
   yearsOfExperience: { type: String, default: "" },
   languages: { type: [String], default: [] },
   profileImage: { type: String, default: "" },
+  resume: { type: String, default: "" },
 });
 
 export default mongoose.model("Profile", profileSchema);

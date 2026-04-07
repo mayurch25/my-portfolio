@@ -38,6 +38,17 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/experience", experienceRoutes);
 app.use("/api/education", educationRoutes);
 
+app.get("/download-resume/:filename", (req, res) => {
+  const filePath = path.join(__dirname, "uploads", "resume", req.params.filename);
+
+  res.download(filePath, "resume.pdf", (err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("File not found");
+    }
+  });
+});
+
 
 app.get('/', (_req, res) => {
     res.send("welcome to my backend");

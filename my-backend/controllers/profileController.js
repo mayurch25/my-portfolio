@@ -17,7 +17,7 @@ export const getProfile = async (_req, res) => {
 export const uploadProfileImage = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
-    const imageUrl = `/uploads/${req.file.filename}`;
+    const imageUrl = `/uploads/profiles/${req.file.filename}`;
     let profile = await Profile.findOne();
     if (!profile) {
       profile = await Profile.create({ profileImage: imageUrl });
@@ -26,6 +26,24 @@ export const uploadProfileImage = async (req, res) => {
       await profile.save();
     }
     res.json({ profileImage: imageUrl });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// UPLOAD resume (Admin)
+export const uploadResume = async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+    const resumeUrl = `/uploads/resume/${req.file.filename}`;
+    let profile = await Profile.findOne();
+    if (!profile) {
+      profile = await Profile.create({ resume: resumeUrl });
+    } else {
+      profile.resume = resumeUrl;
+      await profile.save();
+    }
+    res.json({ resume: resumeUrl });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
