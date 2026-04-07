@@ -9,6 +9,7 @@ export default function ManageProjects() {
   const [projects, setProjects] = useState([]);
   const [form, setForm] = useState(emptyForm);
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
   const [status, setStatus] = useState("");
 
   const fetchProjects = async () => {
@@ -20,21 +21,53 @@ export default function ManageProjects() {
     API.get("/projects").then((res) => setProjects(res.data));
   }, []);
 
-  const handleAdd = async () => {
+  const openAddForm = () => {
+    setEditingId(null);
+    setForm(emptyForm);
+    setShowForm(true);
+    setStatus("");
+  };
+
+  const openEditForm = (project) => {
+    setEditingId(project._id);
+    setForm({
+      title: project.title || "",
+      description: project.description || "",
+      techStack: Array.isArray(project.techStack) ? project.techStack.join(", ") : "",
+      githubLink: project.githubLink || "",
+      liveLink: project.liveLink || "",
+    });
+    setShowForm(true);
+    setStatus("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const cancelForm = () => {
+    setShowForm(false);
+    setEditingId(null);
+    setForm(emptyForm);
+    setStatus("");
+  };
+
+  const handleSave = async () => {
     if (!form.title || !form.description) {
       toast.error("Title and Description are required.");
       return;
     }
     setStatus("saving");
+    const payload = {
+      ...form,
+      techStack: form.techStack.split(",").map((t) => t.trim()).filter(Boolean),
+    };
     try {
-      await API.post("/projects", {
-        ...form,
-        techStack: form.techStack.split(",").map((t) => t.trim()).filter(Boolean),
-      });
-      toast.success("Project added successfully!");
-      setForm(emptyForm);
-      setShowForm(false);
-      setStatus("");
+      if (editingId) {
+        await API.put(`/projects/${editingId}`, payload);
+        toast.success("Project updated successfully!");
+      } else {
+        await API.post("/projects", payload);
+        toast.success("Project added successfully!");
+      }
+      cancelForm();
       fetchProjects();
     } catch {
       toast.error("Failed to save. Please try again.");
@@ -47,6 +80,7 @@ export default function ManageProjects() {
     try {
       await API.delete(`/projects/${id}`);
       toast.success("Project deleted.");
+      if (editingId === id) cancelForm();
       fetchProjects();
     } catch {
       toast.error("Failed to delete. Please try again.");
@@ -60,16 +94,17 @@ export default function ManageProjects() {
         <p className={adminStyles.subtitle}>Manage your portfolio projects</p>
       </div>
 
-      <button
-        className={adminStyles.btnPrimary}
-        onClick={() => { setShowForm(!showForm); setStatus(""); }}
-      >
-        {showForm ? "Cancel" : "+ Add Project"}
-      </button>
+      {!showForm && (
+        <button className={adminStyles.btnPrimary} onClick={openAddForm}>
+          + Add Project
+        </button>
+      )}
 
       {showForm && (
         <div className={adminStyles.card} style={{ marginTop: 20 }}>
-          <div className={adminStyles.cardTitle}>New Project</div>
+          <div className={adminStyles.cardTitle}>
+            {editingId ? "Edit Project" : "New Project"}
+          </div>
 
           <div className={adminStyles.formGroup}>
             <label className={adminStyles.label}>Title *</label>
@@ -122,13 +157,18 @@ export default function ManageProjects() {
             />
           </div>
 
-          <button
-            className={adminStyles.btnPrimary}
-            onClick={handleAdd}
-            disabled={status === "saving"}
-          >
-            {status === "saving" ? "Saving..." : "Add Project"}
-          </button>
+          <div style={{ display: "flex", gap: 12 }}>
+            <button
+              className={adminStyles.btnPrimary}
+              onClick={handleSave}
+              disabled={status === "saving"}
+            >
+              {status === "saving" ? "Saving..." : editingId ? "Save Changes" : "Add Project"}
+            </button>
+            <button className={adminStyles.btnDanger} onClick={cancelForm}>
+              Cancel
+            </button>
+          </div>
         </div>
       )}
 
@@ -165,12 +205,20 @@ export default function ManageProjects() {
                 </div>
               )}
             </div>
-            <button
-              className={adminStyles.btnDanger}
-              onClick={() => deleteProject(p._id)}
-            >
-              Delete
-            </button>
+            <div style={{ display: "flex", gap: 8, flexDirection: "column" }}>
+              <button
+                className={adminStyles.btnEdit}
+                onClick={() => openEditForm(p)}
+              >
+                Edit
+              </button>
+              <button
+                className={adminStyles.btnDanger}
+                onClick={() => deleteProject(p._id)}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>
