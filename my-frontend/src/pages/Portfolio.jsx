@@ -128,7 +128,7 @@ export default function Portfolio() {
             <div className="stat-label">Years Experience</div>
           </div>
           <div className="stat">
-            <div className="stat-num">5+</div>
+            <div className="stat-num">{projects.length || "10"}+</div>
             <div className="stat-label">Projects Delivered</div>
           </div>
           <div className="stat">
