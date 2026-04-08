@@ -2,17 +2,16 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-
 //Register — only allowed for admin email
 export const register = async (req, res) => {
     const { email, password } = req.body;
+    const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
     const existing = await User.findOne({ email });
 
     if (existing) {
         return res.status(400).json({ message: "User already exists." });
-    } 
+    }
     if (email !== ADMIN_EMAIL)
     {
         return res.status(403).json({ message: "Registration not allowed." });
@@ -29,7 +28,7 @@ export const register = async (req, res) => {
 //Login — only allowed for admin email
 export const login = async (req, res) => {
     const { email, password } = req.body;
-    console.log(email, 'email')
+    const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
     if (email !== ADMIN_EMAIL) return res.status(403).json({ message: "Access denied." });
 
