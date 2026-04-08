@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import API from "../services/api";
 import adminStyles from "./AdminPage.module.css";
 
-const BACKEND_URL = import.meta.env.VITE_API_URL?.replace("/api", "") || "http://localhost:3000";
+const BACKEND_URL = import.meta.env.VITE_API_URL?.replace("/api", "");
 
 export default function ManageProfile() {
   const [form, setForm] = useState({

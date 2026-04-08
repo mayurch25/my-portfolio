@@ -71,7 +71,7 @@ export default function Portfolio() {
   const github = profile?.github || "https://github.com/mayurch25";
   const years = profile?.yearsOfExperience || "5+";
   const languages = profile?.languages?.length ? profile.languages : ["English", "Hindi", "Marathi"];
-  const BACKEND_URL = import.meta.env.VITE_API_URL?.replace("/api", "") || "http://localhost:3000";
+  const BACKEND_URL = import.meta.env.VITE_API_URL?.replace("/api", "");
   const profileImageUrl = profile?.profileImage ? `${BACKEND_URL}${profile.profileImage}` : "";
   const resumeUrl = profile?.resume ? `${BACKEND_URL}/download-resume/resume.pdf` : "";
 
