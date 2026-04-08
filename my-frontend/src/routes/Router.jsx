@@ -11,6 +11,7 @@ import ManageProjects from "../pages/ManageProjects";
 import AddProject from "../pages/AddProject";
 import ManageSkills from "../pages/ManageSkills";
 import Messages from "../pages/Messages";
+import ChangePassword from "../pages/ChangePassword";
 
 // Layout & Protected
 import AdminLayout from "../components/AdminLayout";
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
           { path: "add-project", element: <AddProject /> },
           { path: "skills", element: <ManageSkills /> },
           { path: "messages", element: <Messages /> },
+          { path: "change-password", element: <ChangePassword /> },
         ],
       },
     ],

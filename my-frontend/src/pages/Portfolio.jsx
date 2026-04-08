@@ -87,7 +87,9 @@ export default function Portfolio() {
           <li><a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a></li>
           <li><a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a></li>
         </ul>
-        <button className="navbar-admin-btn navbar-admin-btn--desktop" onClick={() => navigate(localStorage.getItem("token") ? "/admin" : "/login")}>Admin</button>
+        {localStorage.getItem("userEmail") === "mayurrchaudhari25@gmail.com" && (
+          <button className="navbar-admin-btn navbar-admin-btn--desktop" onClick={() => navigate("/admin")}>Admin</button>
+        )}
         <button className="navbar-hamburger" onClick={() => setMenuOpen((o) => !o)} aria-label="Toggle menu">
           <span className={`hamburger-bar${menuOpen ? " hamburger-bar--open" : ""}`} />
           <span className={`hamburger-bar${menuOpen ? " hamburger-bar--open" : ""}`} />
@@ -126,7 +128,7 @@ export default function Portfolio() {
             <a href={linkedin} target="_blank" rel="noreferrer" className="btn-secondary">LinkedIn</a>
           )}
           {github && (
-            <a href={github} target="_blank" rel="noreferrer" className="btn-secondary">Git Hub</a>
+            <a href={github} target="_blank" rel="noreferrer" className="btn-secondary">Github</a>
           )}
         </div>
         <div className="hero-stats">

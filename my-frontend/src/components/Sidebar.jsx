@@ -10,6 +10,7 @@ const menu = [
   { name: "Add Project", path: "/admin/add-project", icon: "➕" },
   { name: "Skills", path: "/admin/skills", icon: "⚡" },
   { name: "Messages", path: "/admin/messages", icon: "✉️" },
+  { name: "Change Password", path: "/admin/change-password", icon: "🔑" },
 ];
 
 export default function Sidebar() {

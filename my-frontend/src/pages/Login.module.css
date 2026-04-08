@@ -94,6 +94,23 @@
     transform: scale(0.97);
 }
 
+.switchLink {
+    text-align: center;
+    font-size: 13px;
+    color: #94a3b8;
+    margin-top: -4px;
+}
+
+.switchLink span {
+    color: #a78bfa;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.switchLink span:hover {
+    text-decoration: underline;
+}
+
 /* Animation */
 @keyframes fadeIn {
     from {
