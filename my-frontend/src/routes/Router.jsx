@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 // Pages
 import Portfolio from "../pages/Portfolio";
 import Login from "../pages/Login";
+import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import ManageProfile from "../pages/ManageProfile";
 import ManageExperience from "../pages/ManageExperience";
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
 
   // 🔐 Protected Admin Routes

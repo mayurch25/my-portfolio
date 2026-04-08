@@ -43,6 +43,34 @@
     gap: 6px;
 }
 
+.passwordWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.passwordWrapper .userInput {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.eyeButton {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.eyeButton:hover {
+    color: #f8fafc;
+}
+
 .userInput {
     padding: 12px 14px;
     border-radius: 10px;
@@ -109,6 +137,25 @@
 
 .switchLink span:hover {
     text-decoration: underline;
+}
+
+/* Back to Home button */
+.backHomeButton {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 14px;
+    font-weight: 500;
+    color: #94a3b8;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.backHomeButton:hover {
+    color: #f8fafc;
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 /* Animation */

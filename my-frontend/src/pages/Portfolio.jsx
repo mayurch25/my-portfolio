@@ -87,8 +87,10 @@ export default function Portfolio() {
           <li><a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a></li>
           <li><a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a></li>
         </ul>
-        {localStorage.getItem("userEmail") === "mayurrchaudhari25@gmail.com" && (
+        {localStorage.getItem("token") ? (
           <button className="navbar-admin-btn navbar-admin-btn--desktop" onClick={() => navigate("/admin")}>Admin</button>
+        ) : (
+          <button className="navbar-admin-btn navbar-admin-btn--desktop" onClick={() => navigate("/login")}>Login</button>
         )}
         <button className="navbar-hamburger" onClick={() => setMenuOpen((o) => !o)} aria-label="Toggle menu">
           <span className={`hamburger-bar${menuOpen ? " hamburger-bar--open" : ""}`} />
